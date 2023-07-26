@@ -2,6 +2,8 @@ import axios from "axios";
 import { Dispatch } from "redux";
 import { actionTypes } from ".";
 import { Genres } from "@/domain/genres";
+import { Movies, mapMoviesAllData } from "@/domain/movies";
+import { setAllMovies } from "../movies/moviesActions";
 
 export const getAllGenres = () => async (dispatch: Dispatch) => {
   try {
@@ -11,8 +13,8 @@ export const getAllGenres = () => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,
       },
     });
-    const result: Array<Genres> = response.data.genres;
-    if (response.data.genres && response.data.results.genres > 0) {
+    const result: Array<Genres> = response.data && response.data.genres;
+    if (response.data.genres && response.data.genres.length > 0) {
       dispatch({
         type: actionTypes.GET_ALL_GENRES,
         payload: {},
@@ -30,3 +32,26 @@ export const setAllGenres = (allGenres: any) => ({
   type: actionTypes.SET_ALL_GENRES,
   payload: allGenres,
 });
+
+export const getGenreId = (id: String) => async (dispatch: Dispatch) => {
+  try {
+    const url = `${process.env.NEXT_PUBLIC_API_URL}discover/movie?with_genres=${id}`;
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,
+      },
+    });
+    const result: Array<Movies> = mapMoviesAllData(response.data.results);
+    if (response.data.results && response.data.results.length > 0) {
+      dispatch({
+        type: actionTypes.GET_GENRE_ID,
+        payload: {},
+      });
+      dispatch(setAllMovies(result));
+      return result;
+    }
+    return result;
+  } catch (e: unknown) {
+    console.warn(e);
+  }
+};
