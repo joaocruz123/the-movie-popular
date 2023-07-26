@@ -23,9 +23,9 @@ function Home(props: any) {
     getAllGenres();
   }, []);
 
-  async function getMoviveByGenre(id: String) {
+  async function getMoviveByGenre(ids: Array<any>) {
     setLoading(true);
-    await getGenreId(id).then(() => setLoading(false));
+    await getGenreId(ids).then(() => setLoading(false));
   }
 
   async function getAllMoviesClearFiler() {
@@ -43,16 +43,21 @@ function Home(props: any) {
           Milhões de filmes, séries e pessoas para descobrir. Explore já.
         </h1>
         {genres && (
-          <FilterComponent
-            filterItens={genres}
-            getMoviveByGenre={getMoviveByGenre}
-            getAllMovies={getAllMoviesClearFiler}
-          />
+          <>
+            <small className="text-sm font-medium leading-none text-center text-white">
+              FILTRE POR:
+            </small>
+            <FilterComponent
+              filterItens={genres}
+              getMoviveByGenre={getMoviveByGenre}
+              getAllMovies={getAllMoviesClearFiler}
+            />
+          </>
         )}
       </div>
 
       <div className="container mx-auto my-10">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
           {loading ? (
             <SkeletonLoading />
           ) : (
@@ -67,6 +72,7 @@ function Home(props: any) {
                       alt="logo"
                       width={176}
                       height={274}
+                      loading="lazy"
                     />
                     <div className="my-2">
                       <small className="text-sm font-bold leading-none">

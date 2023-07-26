@@ -33,9 +33,11 @@ export const setAllGenres = (allGenres: any) => ({
   payload: allGenres,
 });
 
-export const getGenreId = (id: String) => async (dispatch: Dispatch) => {
+export const getGenreId = (ids: Array<any>) => async (dispatch: Dispatch) => {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}discover/movie?with_genres=${id}`;
+    const url = `${
+      process.env.NEXT_PUBLIC_API_URL
+    }discover/movie?with_genres=${ids.join(",")}`;
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,

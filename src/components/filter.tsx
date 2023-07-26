@@ -5,7 +5,7 @@ import Image from "next/image";
 
 interface Props {
   readonly filterItens: any;
-  readonly getMoviveByGenre: (arg0: string) => void;
+  readonly getMoviveByGenre: (arg0: Array<any>) => void;
   readonly getAllMovies: () => void;
 }
 
@@ -14,15 +14,33 @@ const FilterComponent: React.FC<Props> = ({
   getMoviveByGenre,
   getAllMovies,
 }) => {
-  const [selectedGenre, setSelectedGenre] = useState<string>("");
+  const [selectedGenre, setSelectedGenre] = useState<Array<any>>([]);
 
   async function hendleMoviesByGenre(genre: any) {
-    getMoviveByGenre(genre.id);
-    setSelectedGenre(genre.name);
+    let arraySelectedGenres: any[] = [];
+    if (selectedGenre && selectedGenre.length > 0) {
+      arraySelectedGenres = [...selectedGenre, genre.id];
+      setSelectedGenre(arraySelectedGenres);
+    } else {
+      arraySelectedGenres.push(genre.id);
+      setSelectedGenre(arraySelectedGenres);
+    }
+    getMoviveByGenre(arraySelectedGenres);
   }
-  async function clearFilterMovies() {
-    setSelectedGenre("");
-    getAllMovies();
+  async function clearFilterMovies(id: Number) {
+    let arraySelectedGenres: any[] = selectedGenre;
+    let indice = arraySelectedGenres.indexOf(id);
+    if (indice >= 0) {
+      arraySelectedGenres.splice(indice, 1);
+    }
+
+    if (arraySelectedGenres && arraySelectedGenres.length > 0) {
+      getMoviveByGenre(arraySelectedGenres);
+      setSelectedGenre(arraySelectedGenres);
+    } else {
+      setSelectedGenre([]);
+      getAllMovies();
+    }
   }
   return (
     <>
@@ -31,7 +49,7 @@ const FilterComponent: React.FC<Props> = ({
           {filterItens &&
             filterItens.length > 0 &&
             filterItens.map((item: any) => {
-              if (selectedGenre === item.name) {
+              if (selectedGenre.indexOf(item.id) > -1) {
                 return (
                   <Button
                     key={item.id}
@@ -39,7 +57,7 @@ const FilterComponent: React.FC<Props> = ({
                   >
                     {item.name}{" "}
                     <Button
-                      onClick={() => clearFilterMovies()}
+                      onClick={() => clearFilterMovies(item.id)}
                       variant="ghost"
                       className="px-2 py-0 hover:bg-yellow-700"
                     >
