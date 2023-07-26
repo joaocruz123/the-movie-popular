@@ -7,12 +7,14 @@ interface Props {
   readonly filterItens: any;
   readonly getMoviveByGenre: (arg0: Array<any>) => void;
   readonly getAllMovies: () => void;
+  readonly handleFavoritesGenre: (arg0: Array<any>) => void;
 }
 
 const FilterComponent: React.FC<Props> = ({
   filterItens,
   getMoviveByGenre,
   getAllMovies,
+  handleFavoritesGenre,
 }) => {
   const [selectedGenre, setSelectedGenre] = useState<Array<any>>([]);
 
@@ -25,6 +27,7 @@ const FilterComponent: React.FC<Props> = ({
       arraySelectedGenres.push(genre.id);
       setSelectedGenre(arraySelectedGenres);
     }
+    handleFavoritesGenre(arraySelectedGenres);
     getMoviveByGenre(arraySelectedGenres);
   }
   async function clearFilterMovies(id: Number) {
@@ -37,8 +40,10 @@ const FilterComponent: React.FC<Props> = ({
     if (arraySelectedGenres && arraySelectedGenres.length > 0) {
       getMoviveByGenre(arraySelectedGenres);
       setSelectedGenre(arraySelectedGenres);
+      handleFavoritesGenre(arraySelectedGenres);
     } else {
       setSelectedGenre([]);
+      handleFavoritesGenre([]);
       getAllMovies();
     }
   }

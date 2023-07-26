@@ -3,9 +3,9 @@ import { Dispatch } from "redux";
 import { actionTypes } from ".";
 import { Movies, mapMoviesAllData } from "@/domain/movies";
 
-export const getAllMovies = () => async (dispatch: Dispatch) => {
+export const getAllMovies = (page: number) => async (dispatch: Dispatch) => {
   try {
-    const url = `${process.env.NEXT_PUBLIC_API_URL}movie/popular`;
+    const url = `${process.env.NEXT_PUBLIC_API_URL}movie/popular?page=${page}`;
     const response = await axios.get(url, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,
@@ -17,6 +17,13 @@ export const getAllMovies = () => async (dispatch: Dispatch) => {
         type: actionTypes.GET_ALL_MOVIES,
         payload: {},
       });
+      dispatch(
+        setPagination({
+          page: response.data.page,
+          totalPages: response.data.total_pages,
+          totalResults: response.data.total_results,
+        })
+      );
       dispatch(setAllMovies(result));
       return result;
     }
@@ -29,4 +36,9 @@ export const getAllMovies = () => async (dispatch: Dispatch) => {
 export const setAllMovies = (allMovies: any) => ({
   type: actionTypes.SET_ALL_MOVIES,
   payload: allMovies,
+});
+
+export const setPagination = (data: any) => ({
+  type: actionTypes.SET_PAGINATION,
+  payload: data,
 });
