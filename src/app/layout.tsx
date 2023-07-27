@@ -2,6 +2,8 @@ import { ReduxProviders } from "@/store/provider";
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import Navibar from "@/theme/navbar";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -23,7 +25,11 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
-        <ReduxProviders>{children}</ReduxProviders>
+        <ReduxProviders>
+          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+            <Navibar>{children}</Navibar>
+          </ThemeProvider>
+        </ReduxProviders>
       </body>
     </html>
   );

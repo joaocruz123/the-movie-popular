@@ -1,6 +1,5 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Image from "next/image";
 import { connect } from "react-redux";
 import { getAllMovies } from "@/store/movies/moviesActions";
 import {
@@ -8,14 +7,27 @@ import {
   getGenreId,
   setFavorites,
 } from "@/store/genres/genresActions";
-import Logo from "@/assets/logo.png";
 import moment from "moment";
 import "moment/locale/pt-br";
 import FilterComponent from "@/components/filter";
 import SkeletonLoading from "@/components/skeletonLoading";
 import Pagination from "@/components/pagination";
+import Link from "next/link";
 
-function Home(props: any) {
+interface Props {
+  getAllMovies: (page: number) => Promise<any>;
+  getAllGenres: () => Promise<any>;
+  getGenreId: (genreId: Array<any>, page: number) => Promise<any>;
+  setFavorites: (favorites: any[]) => void;
+  movies: any[];
+  genres: any[];
+  page: number;
+  totalPages: number;
+  totalResults: number;
+  favorites: any[];
+}
+
+function Home(props: Props) {
   const [loading, setLoading] = useState<boolean>(true);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [currentTotalPages, setCurrentTotalPages] = useState<number>(1);
@@ -35,16 +47,9 @@ function Home(props: any) {
   } = props;
 
   useEffect(() => {
-    if (page) {
-      setCurrentPage(page);
-    }
-    if (totalPages) {
-      setCurrentTotalPages(totalPages);
-    }
-
-    if (totalResults) {
-      setCurrentTotalResults(totalResults);
-    }
+    if (page) setCurrentPage(page);
+    if (totalPages) setCurrentTotalPages(totalPages);
+    if (totalResults) setCurrentTotalResults(totalResults);
 
     setTimeout(() => setLoading(false), 2000);
   }, [page, totalPages, totalResults]);
@@ -54,36 +59,36 @@ function Home(props: any) {
     getAllGenres();
   }, []);
 
-  async function getMoviveByGenre(ids: Array<any>) {
+  async function getMovieByGenre(
+    ids: any[],
+    currentPage: number
+  ): Promise<void> {
     setLoading(true);
     await getGenreId(ids, currentPage).then(() => setLoading(false));
   }
 
-  async function getAllMoviesClearFiler() {
+  async function getAllMoviesClearFiler(): Promise<void> {
     setLoading(true);
-    await getAllMovies().then(() => setLoading(false));
+    await getAllMovies(currentPage).then(() => setLoading(false));
   }
 
-  const handlePageChange = (page: number) => {
+  const handlePageChange = (page: number): void => {
     setLoading(true);
     setCurrentPage(page);
+
     if (favorites && favorites.length > 0) {
-      getMoviveByGenre(favorites);
+      getMovieByGenre(favorites, page);
     } else {
       getAllMovies(page).then(() => setLoading(false));
     }
   };
 
-  async function handleFavoritesGenre(favorites: Array<any>) {
+  async function handleFavoritesGenre(favorites: Array<any>): Promise<void> {
     setFavorites(favorites);
   }
 
   return (
-    <main className="flex flex-col">
-      <div className="flex h-16 items-center px-6 bg-pink-600">
-        <Image src={Logo} alt="logo" className="mx-10" />
-        <div className="ml-auto flex items-center space-x-4">login</div>
-      </div>
+    <main>
       <div className="flex flex-col items-center justify-center px-6 bg-pink-900">
         <h1 className="scroll-m-20 mt-20 mb-10 text-4xl font-extrabold tracking-tight lg:text-5xl text-white md:w-[750px] text-center">
           Milhões de filmes, séries e pessoas para descobrir. Explore já.
@@ -95,7 +100,7 @@ function Home(props: any) {
             </small>
             <FilterComponent
               filterItens={genres}
-              getMoviveByGenre={getMoviveByGenre}
+              getMovieByGenre={getMovieByGenre}
               getAllMovies={getAllMoviesClearFiler}
               handleFavoritesGenre={handleFavoritesGenre}
             />
@@ -113,23 +118,25 @@ function Home(props: any) {
             movies.map((movie: any) => {
               return (
                 <>
-                  <div key={movie.id}>
-                    <img
-                      src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}`}
-                      alt="logo"
-                      width={176}
-                      height={274}
-                      loading="lazy"
-                    />
-                    <div className="my-2">
-                      <small className="text-sm font-bold leading-none">
-                        {movie.originalTitle}
-                      </small>
-                      <p className="text-sm font-bold text-muted-foreground">
-                        {moment(movie.releaseDate).format("DD MMM YYYY")}
-                      </p>
+                  <Link href={`/movie/${movie.id}`}>
+                    <div key={movie.id} className="cursor-pointer">
+                      <img
+                        src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}`}
+                        alt="logo"
+                        width={176}
+                        height={274}
+                        loading="lazy"
+                      />
+                      <div className="my-2">
+                        <small className="text-sm font-bold leading-none">
+                          {movie.originalTitle}
+                        </small>
+                        <p className="text-sm font-bold text-muted-foreground">
+                          {moment(movie.releaseDate).format("DD MMM YYYY")}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  </Link>
                 </>
               );
             })

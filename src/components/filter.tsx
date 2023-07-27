@@ -5,21 +5,21 @@ import Image from "next/image";
 
 interface Props {
   readonly filterItens: any;
-  readonly getMoviveByGenre: (arg0: Array<any>) => void;
+  readonly getMovieByGenre: (arg0: any[], arg1: number) => Promise<void>;
   readonly getAllMovies: () => void;
   readonly handleFavoritesGenre: (arg0: Array<any>) => void;
 }
 
 const FilterComponent: React.FC<Props> = ({
   filterItens,
-  getMoviveByGenre,
+  getMovieByGenre,
   getAllMovies,
   handleFavoritesGenre,
 }) => {
   const [selectedGenre, setSelectedGenre] = useState<Array<any>>([]);
 
   async function hendleMoviesByGenre(genre: any) {
-    let arraySelectedGenres: any[] = [];
+    let arraySelectedGenres: Array<any> = [];
     if (selectedGenre && selectedGenre.length > 0) {
       arraySelectedGenres = [...selectedGenre, genre.id];
       setSelectedGenre(arraySelectedGenres);
@@ -28,7 +28,7 @@ const FilterComponent: React.FC<Props> = ({
       setSelectedGenre(arraySelectedGenres);
     }
     handleFavoritesGenre(arraySelectedGenres);
-    getMoviveByGenre(arraySelectedGenres);
+    getMovieByGenre(arraySelectedGenres, 1);
   }
   async function clearFilterMovies(id: Number) {
     let arraySelectedGenres: any[] = selectedGenre;
@@ -38,7 +38,7 @@ const FilterComponent: React.FC<Props> = ({
     }
 
     if (arraySelectedGenres && arraySelectedGenres.length > 0) {
-      getMoviveByGenre(arraySelectedGenres);
+      getMovieByGenre(arraySelectedGenres, 1);
       setSelectedGenre(arraySelectedGenres);
       handleFavoritesGenre(arraySelectedGenres);
     } else {
