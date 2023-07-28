@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { actionTypes } from ".";
 import {
   Casts,
+  Credits,
   Movie,
   Movies,
   Trailer,
@@ -73,13 +74,13 @@ export const getCreditsMovieId = (id: String) => async (dispatch: Dispatch) => {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,
       },
     });
-    const result: Array<Casts> = mapCastData(response.data.cast);
+    const result: Credits = mapCastData(response.data);
     if (response.data && response.data.cast) {
       dispatch({
         type: actionTypes.GET_MOVIE_CREDITS,
         payload: {},
       });
-      dispatch(setCasts(result));
+      dispatch(setCredits(result));
       return result;
     }
     return result;
@@ -111,6 +112,30 @@ export const getTrailerMovieId = (id: String) => async (dispatch: Dispatch) => {
   }
 };
 
+export const getRecommendationsMovieId =
+  (id: String) => async (dispatch: Dispatch) => {
+    try {
+      const url = `${process.env.NEXT_PUBLIC_API_URL}movie/${id}/recommendations`;
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_READ_KEY}`,
+        },
+      });
+      const result: Array<Movies> = mapMoviesAllData(response.data.results);
+      if (response.data && response.data.results) {
+        dispatch({
+          type: actionTypes.GET_MOVIE_RECOMENDATIONS,
+          payload: {},
+        });
+        dispatch(setRecommendations(result));
+        return result;
+      }
+      return result;
+    } catch (e: unknown) {
+      console.warn(e);
+    }
+  };
+
 export const setAllMovies = (allMovies: Array<Movies>) => ({
   type: actionTypes.SET_ALL_MOVIES,
   payload: allMovies,
@@ -126,12 +151,17 @@ export const setMovieId = (movie: Movie) => ({
   payload: movie,
 });
 
-export const setCasts = (casts: Array<Casts>) => ({
+export const setCredits = (credits: Credits) => ({
   type: actionTypes.SET_MOVIE_CREDITS,
-  payload: casts,
+  payload: credits,
 });
 
 export const setTrailer = (trailer: Trailer) => ({
   type: actionTypes.SET_MOVIE_TRAILER,
   payload: trailer,
+});
+
+export const setRecommendations = (recommendations: Array<Movies>) => ({
+  type: actionTypes.SET_MOVIE_RECOMENDATIONS,
+  payload: recommendations,
 });

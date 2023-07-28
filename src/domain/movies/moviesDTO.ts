@@ -63,6 +63,20 @@ interface SpokenLanguages {
   name: String;
 }
 
+export interface Credits {
+  cast: Array<Casts>;
+  crew: Array<Crew>;
+}
+
+export interface Crew {
+  id: Number;
+  knownForDepartment: String;
+  name: String;
+  originalName: String;
+  department: String;
+  job: String;
+}
+
 export interface Casts {
   adult: boolean;
   gender: Number;
@@ -177,11 +191,11 @@ export const mapMovieDataId = (movie: any): Movie => {
   };
 };
 
-export const mapCastData = (casts: any): Array<Casts> => {
+export const mapCastData = (credits: any): Credits => {
   const allCasts =
-    (casts &&
-      casts.length > 0 &&
-      casts.map((mappedItem: any) => {
+    (credits["cast"] &&
+      credits["cast"].length > 0 &&
+      credits["cast"].map((mappedItem: any) => {
         return {
           adult: mappedItem["adult"],
           gender: mappedItem["gender"],
@@ -199,7 +213,25 @@ export const mapCastData = (casts: any): Array<Casts> => {
       })) ||
     [];
 
-  return allCasts;
+  const allCrew =
+    (credits["crew"] &&
+      credits["crew"].length > 0 &&
+      credits["crew"].map((mappedItem: any) => {
+        return {
+          department: mappedItem["department"],
+          job: mappedItem["job"],
+          id: mappedItem["id"],
+          knownForDepartment: mappedItem["known_for_department"],
+          name: mappedItem["name"],
+          originalName: mappedItem["original_name"],
+        };
+      })) ||
+    [];
+
+  return {
+    cast: allCasts,
+    crew: allCrew,
+  };
 };
 
 export const mapTrailerData = (videos: any): Trailer => {

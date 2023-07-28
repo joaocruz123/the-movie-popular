@@ -19,29 +19,31 @@ const MoviesComponent: React.FC<Props> = ({ movies, loading }) => {
           movies &&
           movies.length > 0 &&
           movies.map((movie: any) => {
-            return (
-              <>
-                <Link href={`/movie/${movie.id}`}>
-                  <div key={movie.id} className="cursor-pointer">
-                    <img
-                      src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}`}
-                      alt="logo"
-                      width={176}
-                      height={274}
-                      loading="lazy"
-                    />
-                    <div className="my-2">
-                      <small className="text-sm font-bold leading-none">
-                        {movie.originalTitle}
-                      </small>
-                      <p className="text-sm font-bold text-muted-foreground">
-                        {moment(movie.releaseDate).format("DD MMM YYYY")}
-                      </p>
+            if (movie.posterPath) {
+              return (
+                <>
+                  <Link href={`/movie/${movie.id}`}>
+                    <div key={movie.id} className="cursor-pointer">
+                      <img
+                        src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}`}
+                        alt="logo"
+                        width={176}
+                        height={274}
+                        loading="lazy"
+                      />
+                      <div className="my-2">
+                        <small className="text-sm font-bold leading-none">
+                          {movie.originalTitle}
+                        </small>
+                        <p className="text-sm font-bold text-muted-foreground">
+                          {moment(movie.releaseDate).format("DD MMM YYYY")}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                </Link>
-              </>
-            );
+                  </Link>
+                </>
+              );
+            }
           })
         )}
       </div>

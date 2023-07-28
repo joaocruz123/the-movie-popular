@@ -49,7 +49,7 @@ const FilterComponent: React.FC<Props> = ({
   }
   return (
     <>
-      <div className="container mx-auto mt-2 mb-10">
+      <div className="container mx-auto mt-2 mb-20">
         <div className="flex flex-row items-center justify-center flex-wrap">
           {filterItens &&
             filterItens.length > 0 &&

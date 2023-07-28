@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { Moon, Sun, Circle } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 
@@ -21,7 +21,6 @@ export default function Navibar({ children }: { children: React.ReactNode }) {
         <Link href={`/`}>
           <Image src={Logo} alt="logo" className="mx-10" />
         </Link>
-        <Circle className="h-[.6rem] w-[.6rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
         <div className="ml-auto flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
