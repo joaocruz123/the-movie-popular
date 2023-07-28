@@ -11,7 +11,7 @@ interface Props {
 
 const MoviesComponent: React.FC<Props> = ({ movies, loading }) => {
   return (
-    <div className="container mx-auto my-10">
+    <div id="movies" className="container mx-auto my-10">
       <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
         {loading ? (
           <SkeletonLoading />
@@ -23,7 +23,13 @@ const MoviesComponent: React.FC<Props> = ({ movies, loading }) => {
               return (
                 <>
                   <Link href={`/movie/${movie.id}`}>
-                    <div key={movie.id} className="cursor-pointer">
+                    <div
+                      id={`movie-popular-${movie.originalTitle
+                        .toLowerCase()
+                        .replace(/\s/g, "-")}`}
+                      key={movie.id}
+                      className="cursor-pointer"
+                    >
                       <img
                         src={`https://www.themoviedb.org/t/p/w220_and_h330_face${movie.posterPath}`}
                         alt="logo"

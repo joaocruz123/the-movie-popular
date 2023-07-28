@@ -18,8 +18,8 @@ describe("Selection of genres to filter", () => {
 
     cy.get("div #genres").contains("Fantasy").click();
 
-    cy.get("div #genres").get("#unchecking-Family").click();
+    cy.get("div #genres").get("#unchecking-family").click();
 
-    cy.get("div #genres").get("#unchecking-Fantasy").click();
+    cy.get("div #genres").get("#unchecking-fantasy").click();
   });
 });

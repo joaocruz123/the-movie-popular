@@ -65,7 +65,7 @@ const FilterComponent: React.FC<Props> = ({
                   >
                     {item.name}{" "}
                     <Button
-                      id={`unchecking-${item.name}`}
+                      id={`unchecking-${item.name.toLowerCase()}`}
                       onClick={() => clearFilterMovies(item.id)}
                       variant="ghost"
                       className="px-2 py-0 hover:bg-yellow-700"
