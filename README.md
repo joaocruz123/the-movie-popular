@@ -1,34 +1,53 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Popular Movies - Teste Frontend
 
-First, run the development server:
+Projeto criando para listar os filmes mais populares do dia, consultando a api [themoviedb](https://developer.themoviedb.org/docs) usando diversas ferramentas e bibliotecas.
+
+- [NextJs](https://nextjs.org/)
+- [RadixUI](https://www.radix-ui.com/) / [Chadcn-UI](https://ui.shadcn.com/)
+- [Redux](https://redux.js.org/)
+- [Cypress](https://www.cypress.io/)
+## Instalação
+
+Clone o projeto para sua maquina e instale as dependências com npm, yarn ou pnpm.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+  git clone https://github.com/joaocruz123/the-movie-popular.git
+
+  cd the-movie-popular
+
+  npm install
+```
+    
+## Variáveis de Ambiente
+
+Para a ultilização da api themoviedb é necessario adicionar ao projeto as chaves de acessos disponibilizadas pelo serviço. As chaves são obtidas em https://www.themoviedb.org/settings/api após realização de cadastro. Após obter as chaves basta adiciona-las no arquiv .env.
+
+O projeto possui um .env de exemplo que pode ser usado para facilitar. Basta renomear o arquivo .env.example para .env.
+```bash
+  cp .env.example .env
+```
+Em seguida adicionar as suas chaves de acesso para acessar a api nas variaveis `NEXT_PUBLIC_TMDB_API_KEY` e `NEXT_PUBLIC_TMDB_READ_KEY` como no exemplo:
+```bash
+NEXT_PUBLIC_TMDB_API_KEY="chave de acesso de api"
+NEXT_PUBLIC_TMDB_READ_KEY="token para acesso aos endpoints"
+NEXT_PUBLIC_API_URL="https://api.themoviedb.org/3/"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Iniciando Projeto
+Para iniciar o projeto basta um dos seguintes comandos:
+```bash
+  npm run dev
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+  npm run start
+```
+    
+## Testes e2e
+O projeto possui alguns testes e2e criados com auxilio da ferramenta [cypress](https://www.cypress.io/). Com o projeto rodando localmente basta execultar o comando para ter acesso aos testes:
 
-## Learn More
+```bash
+  npm run cypress:open
+```
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Em seguida basta selecionar a modalidade e2e, o navegador que deseja rodar e o teste que pretende execultar.
