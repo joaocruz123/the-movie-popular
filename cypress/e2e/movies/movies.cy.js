@@ -8,7 +8,7 @@ describe("Use pagination", () => {
   });
 });
 
-describe("Use pagination", () => {
+describe("Access movie details", () => {
   it("Browse to http://localhost:3000, click on pages and load new movies", () => {
     cy.visit("http://localhost:3000");
 
