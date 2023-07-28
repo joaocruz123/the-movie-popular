@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import CloseIcon from "@/assets/close-circle.png";
 import Image from "next/image";
@@ -8,6 +8,7 @@ interface Props {
   readonly getMovieByGenre: (arg0: any[], arg1: number) => Promise<void>;
   readonly getAllMovies: () => void;
   readonly handleFavoritesGenre: (arg0: Array<any>) => void;
+  readonly favorites: any[];
 }
 
 const FilterComponent: React.FC<Props> = ({
@@ -15,8 +16,15 @@ const FilterComponent: React.FC<Props> = ({
   getMovieByGenre,
   getAllMovies,
   handleFavoritesGenre,
+  favorites,
 }) => {
   const [selectedGenre, setSelectedGenre] = useState<Array<any>>([]);
+
+  useEffect(() => {
+    if (favorites && favorites.length > 0) {
+      setSelectedGenre(favorites);
+    }
+  }, [favorites]);
 
   async function hendleMoviesByGenre(genre: any) {
     let arraySelectedGenres: Array<any> = [];

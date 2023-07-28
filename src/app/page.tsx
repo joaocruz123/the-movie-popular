@@ -104,6 +104,7 @@ function Home(props: Props) {
               getMovieByGenre={getMovieByGenre}
               getAllMovies={getAllMoviesClearFiler}
               handleFavoritesGenre={handleFavoritesGenre}
+              favorites={favorites}
             />
           </>
         )}
