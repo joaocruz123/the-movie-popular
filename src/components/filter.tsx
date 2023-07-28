@@ -50,7 +50,10 @@ const FilterComponent: React.FC<Props> = ({
   return (
     <>
       <div className="container mx-auto mt-2 mb-20">
-        <div className="flex flex-row items-center justify-center flex-wrap">
+        <div
+          id="genres"
+          className="flex flex-row items-center justify-center flex-wrap"
+        >
           {filterItens &&
             filterItens.length > 0 &&
             filterItens.map((item: any) => {
@@ -62,6 +65,7 @@ const FilterComponent: React.FC<Props> = ({
                   >
                     {item.name}{" "}
                     <Button
+                      id={`unchecking-${item.name}`}
                       onClick={() => clearFilterMovies(item.id)}
                       variant="ghost"
                       className="px-2 py-0 hover:bg-yellow-700"

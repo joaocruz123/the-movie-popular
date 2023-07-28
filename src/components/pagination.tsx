@@ -44,72 +44,77 @@ const Pagination: FC<Props> = ({
     "px-2.5 py-1 flex justify-center items-center rounded-md text-[1rem] bg-white hover:bg-grey-300 text-purple-700 font-bold select-none cursor-pointer";
 
   return (
-    <ul
-      className={classnames("flex justify-center flex-wrap gap-2", className)}
-    >
-      <li
-        className={classnames(baseStyles, {
-          hidden: currentPage === 1,
-        })}
-        onClick={onPrevious}
+    <main id="pagination">
+      <ul
+        className={classnames("flex justify-center flex-wrap gap-2", className)}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
+        <li
+          id="previous-pagination"
+          className={classnames(baseStyles, {
+            hidden: currentPage === 1,
+          })}
+          onClick={onPrevious}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15.75 19.5L8.25 12l7.5-7.5"
-          />
-        </svg>
-      </li>
-      {paginationRange.map((pageNumber, index) => {
-        if (pageNumber === "DOTS") {
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M15.75 19.5L8.25 12l7.5-7.5"
+            />
+          </svg>
+        </li>
+        {paginationRange.map((pageNumber, index) => {
+          if (pageNumber === "DOTS") {
+            return (
+              <li key={index} className="select-none">
+                ...
+              </li>
+            );
+          }
           return (
-            <li key={index} className="select-none">
-              ...
+            <li
+              key={index}
+              className={classnames(baseStyles, {
+                "font-bold border border-purple-500":
+                  pageNumber === currentPage,
+              })}
+              onClick={() => onPageChange(pageNumber)}
+            >
+              {pageNumber}
             </li>
           );
-        }
-        return (
-          <li
-            key={index}
-            className={classnames(baseStyles, {
-              "font-bold border border-purple-500": pageNumber === currentPage,
-            })}
-            onClick={() => onPageChange(pageNumber)}
-          >
-            {pageNumber}
-          </li>
-        );
-      })}
-      <li
-        className={classnames(baseStyles, {
-          hidden: currentPage === lastPage,
         })}
-        onClick={onNext}
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
+        <li
+          id="next-pagination"
+          className={classnames(baseStyles, {
+            hidden: currentPage === lastPage,
+          })}
+          onClick={onNext}
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M8.25 4.5l7.5 7.5-7.5 7.5"
-          />
-        </svg>
-      </li>
-    </ul>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+            className="w-6 h-6"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M8.25 4.5l7.5 7.5-7.5 7.5"
+            />
+          </svg>
+        </li>
+      </ul>
+    </main>
   );
 };
 
