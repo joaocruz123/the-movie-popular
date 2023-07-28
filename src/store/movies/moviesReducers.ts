@@ -1,4 +1,4 @@
-import { Movies } from "@/domain/movies";
+import { Casts, Movies } from "@/domain/movies";
 import { actionTypes } from ".";
 
 type initialState = {
@@ -7,6 +7,8 @@ type initialState = {
   movies: Array<Movies>;
   totalResults: number;
   selectedMovie: Object;
+  selectedMovieCredits: Array<Casts>;
+  selectedMovieTrailer: Object;
 };
 
 const initialState: initialState = {
@@ -15,6 +17,8 @@ const initialState: initialState = {
   totalResults: 1,
   movies: [],
   selectedMovie: {},
+  selectedMovieCredits: [],
+  selectedMovieTrailer: {},
 };
 
 const moviesReducer = (state: initialState = initialState, action: any) => {
@@ -40,6 +44,20 @@ const moviesReducer = (state: initialState = initialState, action: any) => {
       newState = {
         ...state,
         selectedMovie: action.payload,
+      };
+      break;
+    }
+    case actionTypes.SET_MOVIE_CREDITS: {
+      newState = {
+        ...state,
+        selectedMovieCredits: action.payload,
+      };
+      break;
+    }
+    case actionTypes.SET_MOVIE_TRAILER: {
+      newState = {
+        ...state,
+        selectedMovieTrailer: action.payload,
       };
       break;
     }

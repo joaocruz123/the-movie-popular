@@ -63,10 +63,32 @@ interface SpokenLanguages {
   name: String;
 }
 
+export interface Casts {
+  adult: boolean;
+  gender: Number;
+  id: Number;
+  knownForDepartment: String;
+  name: String;
+  originalName: String;
+  popularity: String;
+  profilePath: String;
+  castId: Number;
+  character: String;
+  creditId: String;
+  order: Number;
+}
+
+export interface Trailer {
+  name: String;
+  key: String;
+  type: String;
+  official: String;
+}
+
 export const mapMoviesAllData = (movies: any): Array<Movies> => {
   const allMovies =
     (movies &&
-      movies.length &&
+      movies.length > 0 &&
       movies.map((mappedItem: any) => {
         return {
           backdropPath: mappedItem["backdrop_path"],
@@ -152,5 +174,48 @@ export const mapMovieDataId = (movie: any): Movie => {
     video: movie["video"],
     voteAverage: movie["vote_average"],
     voteCount: movie["vote_count"],
+  };
+};
+
+export const mapCastData = (casts: any): Array<Casts> => {
+  const allCasts =
+    (casts &&
+      casts.length > 0 &&
+      casts.map((mappedItem: any) => {
+        return {
+          adult: mappedItem["adult"],
+          gender: mappedItem["gender"],
+          id: mappedItem["id"],
+          knownForDepartment: mappedItem["known_for_department"],
+          name: mappedItem["name"],
+          originalName: mappedItem["original_name"],
+          popularity: mappedItem["popularity"],
+          profilePath: mappedItem["profile_path"],
+          castId: mappedItem["cast_id"],
+          character: mappedItem["character"],
+          creditId: mappedItem["credit_id"],
+          order: mappedItem["order"],
+        };
+      })) ||
+    [];
+
+  return allCasts;
+};
+
+export const mapTrailerData = (videos: any): Trailer => {
+  const trailer =
+    (videos &&
+      videos.length > 0 &&
+      videos.find(
+        (mappedItem: any) =>
+          mappedItem.type === "Trailer" && mappedItem.official === true
+      )) ||
+    {};
+
+  return {
+    name: trailer.name,
+    key: trailer.key,
+    type: trailer.type,
+    official: trailer.official,
   };
 };
