@@ -7,12 +7,9 @@ import {
   getGenreId,
   setFavorites,
 } from "@/store/genres/genresActions";
-import moment from "moment";
 import "moment/locale/pt-br";
 import FilterComponent from "@/components/filter";
-import SkeletonLoading from "@/components/skeletonLoading";
 import Pagination from "@/components/pagination";
-import Link from "next/link";
 import MoviesComponent from "@/components/movies";
 
 interface Props {
